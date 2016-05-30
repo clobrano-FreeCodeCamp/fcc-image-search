@@ -1,6 +1,6 @@
 var express = require('express');
 var googleImages = require('../lib/custom-google-images');
-var saveHistory = require('../lib/database.js');
+var saveHistory = require('../lib/database.js').saveHistory;
 
 var router = express.Router();
 var CSE_ID = process.env.CSE_ID;
