@@ -1,8 +1,8 @@
 var express = require('express');
 var googleImages = require('../lib/custom-google-images');
+var saveHistory = require('../lib/database.js');
 
 var router = express.Router();
-
 var CSE_ID = process.env.CSE_ID;
 var APP_KEY = process.env.APP_KEY;
 
@@ -15,8 +15,6 @@ if (!APP_KEY) {
     process.exit(1);
 }
 
-var client = googleImages(CSE_ID, APP_KEY);
-
 router.get('/:query', function(req, res) {
     var offset = req.param('offset');
     var query = req.params.query;
@@ -25,6 +23,9 @@ router.get('/:query', function(req, res) {
         res.send('Error: query is empty');
     }
 
+    saveHistory(query);
+
+    var client = googleImages(CSE_ID, APP_KEY);
     client.search(query, {'num': offset}).then(function(images) {
         res.send(images);
     });
