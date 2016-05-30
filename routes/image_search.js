@@ -4,8 +4,18 @@ var googleImages = require('../lib/custom-google-images');
 var router = express.Router();
 
 var CSE_ID = process.env.CSE_ID;
-var APP_key = process.env.APP_KEY;
-var client = googleImages(CSE_ID, APP_key);
+var APP_KEY = process.env.APP_KEY;
+
+if (!CSE_ID) {
+    console.log("CSE_ID not found");
+    process.exit(1);
+}
+if (!APP_KEY) {
+    console.log("APP_KEY not found");
+    process.exit(1);
+}
+
+var client = googleImages(CSE_ID, APP_KEY);
 
 router.get('/:query', function(req, res) {
     var offset = req.param('offset');
